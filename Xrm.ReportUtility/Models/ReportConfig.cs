@@ -1,5 +1,7 @@
 ﻿namespace Xrm.ReportUtility.Models
 {
+    // Можно реализовать билдер для создания конфига.
+    // Это позволить валидировать обязательность полей (2 хотелка)
     public class ReportConfig
     {
         public bool WithData { get; set; }
