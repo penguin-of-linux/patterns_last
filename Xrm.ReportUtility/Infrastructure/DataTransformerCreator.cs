@@ -6,6 +6,7 @@ namespace Xrm.ReportUtility.Infrastructure
 {
     public static class DataTransformerCreator
     {
+        // Статический фабричный метод (не знаю, что еще писать)
         public static IDataTransformer CreateTransformer(ReportConfig config)
         {
             IDataTransformer service = new DataTransformer(config);

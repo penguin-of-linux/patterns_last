@@ -38,6 +38,12 @@
       <HintPath>..\packages\CsvHelper.2.16.3.0\lib\net45\CsvHelper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="GrEmit, Version=3.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GrEmit.3.1.1\lib\net45\GrEmit.dll</HintPath>
+    </Reference>
+    <Reference Include="GroboContainer, Version=1.2.45.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GroboContainer.1.2.45\lib\net45\GroboContainer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -55,7 +61,9 @@
     <Compile Include="Infrastructure\Transformers\CostSumReportTransformer.cs" />
     <Compile Include="Infrastructure\Transformers\CountSumReportTransformer.cs" />
     <Compile Include="Interfaces\IReportService.cs" />
+    <Compile Include="IReportFacade.cs" />
     <Compile Include="Models\ReportRow.cs" />
+    <Compile Include="ReportServiceFacade.cs" />
     <Compile Include="Services\CsvReportService.cs" />
     <Compile Include="Interfaces\IDataTransformer.cs" />
     <Compile Include="Infrastructure\DataTransformerCreator.cs" />

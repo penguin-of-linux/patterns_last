@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
+using GroboContainer.Core;
+using GroboContainer.Impl;
 using Xrm.ReportUtility.Interfaces;
 using Xrm.ReportUtility.Models;
-using Xrm.ReportUtility.Services;
 
 namespace Xrm.ReportUtility
 {
@@ -11,9 +13,9 @@ namespace Xrm.ReportUtility
         // "Files/table.txt" -data -weightSum -costSum -withIndex -withTotalVolume
         public static void Main(string[] args)
         {
-            var service = GetReportService(args);
-
-            var report = service.CreateReport();
+            var container = InitializeContainer(args);
+            var facade = container.Get<IReportFacade>();
+            var report = facade.CreateReport();
 
             PrintReport(report);
 
@@ -22,28 +24,18 @@ namespace Xrm.ReportUtility
             Console.ReadLine();
         }
 
-        private static IReportService GetReportService(string[] args)
+        // Паттерн dependency injection
+        // Позволяет указать конкреные реализации в 1 точке программы. В дальнейшем можно использовать только абстракции.
+        // Также позволяет добавлять новые реализации (IReportService) без написания дополнительного кода
+        //    (нужно просто реализовать IReportService).
+        private static IContainer InitializeContainer(string[] args)
         {
-            var filename = args[0];
-
-            if (filename.EndsWith(".txt"))
-            {
-                return new TxtReportService(args);
-            }
-
-            if (filename.EndsWith(".csv"))
-            {
-                return new CsvReportService(args);
-            }
-
-            if (filename.EndsWith(".xlsx"))
-            {
-                return new XlsxReportService(args);
-            }
-
-            throw new NotSupportedException("this extension not supported");
+            var container = new Container(new ContainerConfiguration(Assembly.GetExecutingAssembly()));
+            var reportServices = container.GetAll(typeof(IReportService)).Cast<IReportService>().ToArray();
+            container.Configurator.ForAbstraction<IReportFacade>().UseInstances(new ReportServiceFacade(args, reportServices));
+            return container;
         }
-
+        
         private static void PrintReport(Report report)
         {
             if (report.Config.WithData && report.Data != null && report.Data.Any())

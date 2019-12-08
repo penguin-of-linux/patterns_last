@@ -6,10 +6,9 @@ using Xrm.ReportUtility.Models;
 
 namespace Xrm.ReportUtility.Services
 {
+    // ConcreteHandler в цепочке обязанностей
     public class CsvReportService : ReportServiceBase
     {
-        public CsvReportService(string[] args) : base(args) { }
-
         protected override DataRow[] GetDataRows(string text)
         {
             using (TextReader textReader = new StringReader(text))
@@ -22,5 +21,7 @@ namespace Xrm.ReportUtility.Services
                 return csvReader.GetRecords<DataRow>().ToArray();
             }
         }
+
+        protected override string RecognizableExtension => "csv";
     }
 }

@@ -8,8 +8,6 @@ namespace Xrm.ReportUtility.Services
 {
     public class TxtReportService : ReportServiceBase
     {
-        public TxtReportService(string[] args) : base(args){ }
-
         protected override DataRow[] GetDataRows(string text)
         {
             var result = new List<DataRow>();
@@ -32,5 +30,7 @@ namespace Xrm.ReportUtility.Services
 
             return result.ToArray();
         }
+
+        protected override string RecognizableExtension => "txt";
     }
 }
